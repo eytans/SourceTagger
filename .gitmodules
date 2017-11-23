@@ -1,0 +1,3 @@
+[submodule "StackExchangeImporter"]
+	path = StackExchangeImporter
+	url = git@github.com:1123/StackExchangeImporter.git
