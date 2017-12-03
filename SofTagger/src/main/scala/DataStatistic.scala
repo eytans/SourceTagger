@@ -1,8 +1,11 @@
-import org.stackexchange.dumps.importer.services.SofManagerImpl
+import javax.persistence.criteria._
 
-// language=SQL
+import org.stackexchange.dumps.importer.domain.Post
+import sof.SqlQueries
 
 class DataStatistic {
-  val em = SofManagerImpl.create.getEm
-  val tagsQuery = em.createQuery("SELECT * FROM ")
+  val sqlQueries = new SqlQueries
+
+
+//  val results = sqlQueries.executeCriteria[Post](q)
 }

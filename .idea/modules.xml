@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/SourceTagger.iml" filepath="$PROJECT_DIR$/.idea/SourceTagger.iml" />
       <module fileurl="file://$PROJECT_DIR$/StackExchangeImporter/StackExchangeImporter.iml" filepath="$PROJECT_DIR$/StackExchangeImporter/StackExchangeImporter.iml" />
       <module fileurl="file://$PROJECT_DIR$/SofTagger/.idea/modules/softagger.iml" filepath="$PROJECT_DIR$/SofTagger/.idea/modules/softagger.iml" />
       <module fileurl="file://$PROJECT_DIR$/SofTagger/.idea/modules/softagger-build.iml" filepath="$PROJECT_DIR$/SofTagger/.idea/modules/softagger-build.iml" />
