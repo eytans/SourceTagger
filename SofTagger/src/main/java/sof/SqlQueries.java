@@ -1,32 +1,34 @@
 package sof;
 
-import org.stackexchange.dumps.importer.domain.Post;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.stackexchange.dumps.importer.services.SofManager;
 import org.stackexchange.dumps.importer.services.SofManagerImpl;
+import org.stackexchange.querying.PostR;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Tuple;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
-import java.nio.Buffer;
 import java.util.List;
-import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
+
+@RequiredArgsConstructor
 public class SqlQueries {
 
+    /* --- Members --- */
     public final EntityManager em;
 
+    /* --- Constructors --- */
     public SqlQueries() {
         this(SofManagerImpl.create());
     }
     public SqlQueries(SofManager sofManager) {
         this(sofManager.getEm());
     }
-    public SqlQueries(EntityManager em) {
-        this.em = em;
-    }
+
+    /* --- Public Methods --- */
 
     public <T> CriteriaQuery<T> typedCriteria(Class<T> clazz) {
         CriteriaQuery<T> query = em.getCriteriaBuilder().createQuery(clazz);
@@ -41,14 +43,13 @@ public class SqlQueries {
         return executeCriteria(typedCriteria(clazz));
     }
 
-    public List joinPostWithAnswer() {
+    public List<PostR> getAllQuestions() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Tuple> q = cb.createTupleQuery();
-        Root<Post> question = q.from(Post.class);
-        Root<Post> answer = q.from(Post.class);
-        CriteriaQuery join = q.multiselect(question, answer);
-//                .where(cb.equal(question.get("acceptedAnswerId"), answer.get("id")));
-        List ret =  em.createQuery(join).getResultList();
-        return ret;
+        CriteriaQuery<PostR> q = cb.createQuery(PostR.class);
+        Root<PostR> question = q.from(PostR.class);
+        Root<PostR> answer = q.from(PostR.class);
+        q = q.where(cb.equal(question.get(PostR.ACCEPTED_ANSWER_ID), answer.get(PostR.ID)));
+
+        return em.createQuery(q).getResultList().stream().map(PostR::getAnswer).collect(toList());
     }
 }
