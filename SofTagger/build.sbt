@@ -18,29 +18,15 @@ resolvers ++= Seq(
   "apache-snapshots" at "http://repository.apache.org/snapshots/"
 )
 
-//libraryDependencies ++= Seq(
-//  // "spark-hive"
-//  sparkGroupId %% "spark-core" % sparkVersion,
-//  sparkGroupId %% "spark-sql" % sparkVersion,
-//  sparkGroupId %% "spark-mllib" % sparkVersion,
-//  sparkGroupId %% "spark-streaming" % sparkVersion,
-//)
+libraryDependencies ++= Seq(
+  // "spark-hive"
+  sparkGroupId %% "spark-core" % sparkVersion,
+  sparkGroupId %% "spark-sql" % sparkVersion,
+  sparkGroupId %% "spark-mllib" % sparkVersion,
+  sparkGroupId %% "spark-streaming" % sparkVersion,
+)
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % "test"
-
-
-//libraryDependencies ++= Seq(
-//    hibernateGroupId % "hibernate-entitymanager" % hibernateVersion,
-//    hibernateGroupId % "hibernate-core" % hibernateVersion,
-//)
-//
-//libraryDependencies ++= Seq(
-//    springGroupId % "spring-context" % springVersion,
-//    springGroupId % "spring-orm" % springVersion,
-//)
-
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % "test"
-
 
 libraryDependencies += "org.projectlombok" % "lombok" % "1.16.6"
 libraryDependencies ++= Seq(
@@ -61,3 +47,8 @@ libraryDependencies += "commons-collections" % "commons-collections" % "3.2.1"
 libraryDependencies += "org.glassfish.extras" % "glassfish-embedded-all" % "3.0"
 libraryDependencies += "com.h2database" % "h2" % "1.4.180"
 libraryDependencies += "org.apache.commons" % "commons-lang3" % "3.1"
+
+// Add the ScalaMock library (versions 4.0.0 onwards)
+libraryDependencies += "org.scalamock" %% "scalamock" % "4.0.0" % Test
+// also add ScalaTest as a framework to run the tests
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % Test
