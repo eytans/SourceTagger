@@ -1,10 +1,11 @@
 import org.scalatest.{FunSuite, Matchers}
 import org.stackexchange.dumps.importer.domain.Post
 import org.scalamock.scalatest.MockFactory
+import org.stackexchange.querying.PostR
 
 class PreProcessingTest extends FunSuite with Matchers with MockFactory {
   test("testProccessed") {
-    val mockedPost = mock[Post]
+    val mockedPost = mock[PostR]
     (mockedPost.getAnswer _).expects().returning(mockedPost)
     (mockedPost.getBody _).expects().returning("hello world \"a string\".pdate(whatever)")
 

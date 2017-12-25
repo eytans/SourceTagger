@@ -1,18 +1,16 @@
-import org.apache.spark
-import org.apache.spark.SparkContext
+import org.apache.spark.{SparkConf}
 import org.stackexchange.dumps.importer.domain.Post
 import org.stackexchange.querying._
-import org.apache.spark.ml.feature.{CountVectorizer, CountVectorizerModel, Tokenizer}
+import org.apache.spark.ml.feature.{CountVectorizer}
 import org.apache.spark.ml.feature.{HashingTF, IDF}
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.expressions.Aggregator
-import org.apache.spark.sql.Encoder
-import org.apache.spark.sql.Encoders
+import org.apache.spark.mllib.classification.{NaiveBayes, NaiveBayesModel}
+import org.apache.spark.mllib.util.MLUtils
 
 import scala.collection.immutable.HashMap
 
-class PreProcessing(posts: Stream[Post]) {
-  val sparkConf = new spark.SparkConf().setMaster("local")
+class PreProcessing(posts: Stream[PostR]) {
+  val sparkConf = new SparkConf().setMaster("local")
   val sparkSession = SparkSession.builder().config(sparkConf).getOrCreate()
   import sparkSession.implicits._
 
@@ -24,7 +22,7 @@ class PreProcessing(posts: Stream[Post]) {
     post
   }
 
-  val words = posts map ((post: Post) => extractCode(post.getAnswer.getBody)) map (_.split(Array(' ', ';', '\n', '.', '(', ')', '{', '}', ',')))
+  val words = posts map ((post: PostR) => extractCode(post.getAnswer.getBody)) map (_.split(Array(' ', ';', '\n', '.', '(', ')', '{', '}', ',')))
 
   val proccessed = {
     words map (_.filter (s => legalIdentRE.findFirstIn(s).isDefined))
@@ -45,6 +43,7 @@ class PreProcessing(posts: Stream[Post]) {
   val idfModel = idf.fit(featurizedData)
 
   val rescaledData = idfModel.transform(featurizedData)
-  rescaledData.select("label", "features").show()
+
+  def apply() = rescaledData.select("label", "features")
 }
 

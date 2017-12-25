@@ -20,7 +20,7 @@ class SqlQueriesTest extends org.scalatest.FlatSpec with Matchers with TimeLimit
   }
 
   "Post with Answer" should "be not empty" in {
-    val res = data.joinPostWithAnswer()
+    val res = data.getAllQuestions
     res.size() should be > 0
   }
 
